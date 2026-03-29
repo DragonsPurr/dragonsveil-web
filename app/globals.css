@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --dv-bkgd-color: #000000;
+  --dv-light-purple: #c427c0;
+  --dv-dark-purple: #861887;
+  --dv-gray-800: #1f2937;
+  --dv-gray-600: #4b5563;
+  /* Use with `background-image:` — `bg-[var(...)]` is compiled as background-color, not the image */
+  --dp-main-content-bg-image: url("https://dp-dv-assets.tor1.digitaloceanspaces.com/brand/bkgd-banner.png");
+}
+
+html,
+body {
+  @apply bg-[var(--dv-bkgd-color)] text-white min-h-full m-0;
+  font-family: var(--font-cormorant), var(--font-cinzel), -apple-system,
+    BlinkMacSystemFont, 'Times New Roman', serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .dp-page-header {
+    @apply font-cinzel_decorative text-4xl md:text-[60px] text-[var(--dv-light-purple)] leading-none mb-8 md:mb-12;
+  }
+
+  .dp-section-header {
+    @apply font-cinzel_decorative text-2xl md:text-4xl text-[var(--dv-light-purple)];
+  }
+
+  .dp-circular-image {
+    @apply w-full max-w-[500px] h-auto rounded-full;
+  }
+
+  /* About page: purple tint over portrait (see --dv-dark-purple) */
+  .dp-about-portrait-wrap {
+    @apply relative isolate w-full max-w-[500px] rounded-full overflow-hidden;
+  }
+  /* Hue/saturation tint — reads more “purple” than multiply alone */
+  .dp-about-portrait-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--dv-dark-purple);
+    opacity: 0.55;
+    mix-blend-mode: color;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .dp-about-portrait-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--dv-dark-purple);
+    opacity: 0.62;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .dp-body-text {
+    @apply font-cormorant_garamond text-xl md:text-2xl;
+  }
+
+  .dp-link {
+    @apply text-white no-underline hover:text-[var(--dv-light-purple)] target:text-[var(--dv-light-purple)];
+  }
+
+  .dp-nav-item {
+    @apply flex flex-wrap justify-end gap-2 md:gap-4 font-cinzel text-white text-lg md:text-3xl;
+  }
+
+  .dp-form-label {
+    @apply block font-cinzel text-xl mb-1 text-[var(--dv-light-purple)];
+  }
+
+  .dp-form-input {
+    @apply w-full font-cormorant_garamond text-lg px-3 py-2 rounded-md border border-[var(--dv-gray-600)] bg-[var(--dv-bkgd-color)] text-white;
+  }
+
+  .dp-form-button {
+    @apply font-cinzel text-lg px-4 py-2 rounded-md bg-[var(--dv-dark-purple)] text-white hover:bg-[var(--dv-light-purple)];
+  }
+
+  .dp-main-content {
+    @apply flex-1 flex justify-center items-start md:items-center pt-12 px-4 pb-28 md:pb-24
+      bg-cover bg-center bg-fixed bg-[var(--dv-gray-800)] bg-blend-soft-light;
+    background-image: var(--dp-main-content-bg-image);
+  }
+}
+
+/* SweetAlert2: match site style (black/dark modal, red buttons) */
+.swal2-container {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.swal2-popup {
+  background-color: #000;
+  border: 1px solid #4b5563;
+  border-radius: 0.375rem;
+  color: #fff;
+}
+.swal2-title,
+.swal2-html-container {
+  color: #fff;
+}
+.swal2-icon.swal2-success [class^='swal2-success-line'],
+.swal2-icon.swal2-error [class^='swal2-x-line'] {
+  background-color: #fff;
+}
+.swal2-icon.swal2-success .swal2-success-ring {
+  border-color: rgba(185, 28, 28, 0.5);
+}
+.swal2-icon.swal2-error [class^='swal2-x-line'] {
+  background-color: var(--dv-light-purple);
+}
+.swal2-styled.swal2-confirm {
+  background-color: var(--dv-dark-purple);
+  color: #fff;
+  border: none;
+  border-radius: 0.375rem;
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.125rem;
+  padding: 0.5rem 1rem;
+}
+.swal2-styled.swal2-confirm:hover {
+  background-color: var(--dv-light-purple);
+}
+.swal2-styled.swal2-cancel {
+  background-color: transparent;
+  color: #9ca3af;
+  border: 1px solid #4b5563;
+  border-radius: 0.375rem;
+}
+.swal2-styled.swal2-cancel:hover {
+  color: #fff;
+  border-color: #6b7280;
+}
+
+/* Sanity Studio: fill viewport so no browser scroll */
+.studio-full-height {
+  height: 100%;
+}
+.studio-full-height > * {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+/* Social icon tint: site red (#dc2626 / red-600) */
+.img-[red-600] {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+}
+.img-red-600:hover {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(114%) contrast(97%);
+}
