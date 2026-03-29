@@ -1,6 +1,6 @@
 import { AboutPageView } from '@/components/AboutPageView';
 import { asset_base_url } from '@/app/lib/constants';
-import { getAboutPageContent, resolvePortraitAlt } from '@/app/lib/about';
+import { defaultSectionTitle, getAboutPageContent, resolvePortraitAlt } from '@/app/lib/about';
 import { urlFor } from '@/app/lib/sanity';
 
 export default async function About() {
@@ -15,9 +15,9 @@ export default async function About() {
     <AboutPageView
       portraitUrl={portraitUrl}
       portraitAlt={portraitAlt}
-      whoWeAreTitle={content?.whoWeAreTitle?.trim() || 'Who We Are'}
+      whoWeAreTitle={content?.whoWeAreTitle ?? defaultSectionTitle('Who We Are')}
       whoWeAreBody={content?.whoWeAreBody?.length ? content.whoWeAreBody : null}
-      whatWeMakeTitle={content?.whatWeMakeTitle?.trim() || 'What We Make'}
+      whatWeMakeTitle={content?.whatWeMakeTitle ?? defaultSectionTitle('What We Make')}
       whatWeMakeBody={content?.whatWeMakeBody?.length ? content.whatWeMakeBody : null}
     />
   );

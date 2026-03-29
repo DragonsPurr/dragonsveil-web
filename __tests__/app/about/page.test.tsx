@@ -24,6 +24,15 @@ jest.mock('@/app/lib/sanity', () => ({
 jest.mock('@/app/lib/about', () => ({
   getAboutPageContent: jest.fn(),
   resolvePortraitAlt: () => 'Kayt and Ryan',
+  defaultSectionTitle: (text: string) => [
+    {
+      _type: 'block',
+      _key: 'mock-title',
+      style: 'normal',
+      markDefs: [],
+      children: [{ _type: 'span', _key: 'mock-span', text, marks: [] }],
+    },
+  ],
 }));
 
 const mockGetAboutPageContent = getAboutPageContent as jest.MockedFunction<typeof getAboutPageContent>;

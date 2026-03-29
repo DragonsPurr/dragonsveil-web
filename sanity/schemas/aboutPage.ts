@@ -25,8 +25,9 @@ export const aboutPage = {
     {
       name: 'whoWeAreTitle',
       title: 'First section heading',
-      type: 'string',
-      description: 'Heading shown above the first column of body text.',
+      type: 'array',
+      of: [{ type: 'block' }],
+      description: 'Heading shown above the first column of body text. Supports links and inline styles.',
     },
     {
       name: 'whoWeAreBody',
@@ -38,8 +39,9 @@ export const aboutPage = {
     {
       name: 'whatWeMakeTitle',
       title: 'Second section heading',
-      type: 'string',
-      description: 'Heading for the second block of text.',
+      type: 'array',
+      of: [{ type: 'block' }],
+      description: 'Heading for the second block of text. Supports links and inline styles.',
     },
     {
       name: 'whatWeMakeBody',

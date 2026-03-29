@@ -2,22 +2,48 @@ import type { PortableTextBlock } from '@portabletext/types';
 import { PortableText, type PortableTextComponents } from '@portabletext/react';
 import Image from 'next/image';
 
+const linkMarks: PortableTextComponents['marks'] = {
+  link: ({ value, children }) => {
+    const href = typeof value?.href === 'string' ? value.href : '#';
+    const isExternal = /^https?:\/\//i.test(href);
+    return (
+      <a
+        href={href}
+        className="underline text-[var(--dv-light-purple)] hover:opacity-90"
+        {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      >
+        {children}
+      </a>
+    );
+  },
+  strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+  em: ({ children }) => <em>{children}</em>,
+};
+
+const titleComponents: PortableTextComponents = {
+  block: {
+    normal: ({ children }) => (
+      <p className="mb-4">
+        <strong className="dp-section-header">{children}</strong>
+      </p>
+    ),
+  },
+  marks: linkMarks,
+};
+
 const bodyComponents: PortableTextComponents = {
   block: {
     normal: ({ children }) => <p className="mb-4 last:mb-0">{children}</p>,
   },
-  marks: {
-    strong: ({ children }) => <strong className="font-bold">{children}</strong>,
-    em: ({ children }) => <em>{children}</em>,
-  },
+  marks: linkMarks,
 };
 
 type AboutPageViewProps = {
   portraitUrl: string;
   portraitAlt: string;
-  whoWeAreTitle: string;
+  whoWeAreTitle: PortableTextBlock[];
   whoWeAreBody: PortableTextBlock[] | null;
-  whatWeMakeTitle: string;
+  whatWeMakeTitle: PortableTextBlock[];
   whatWeMakeBody: PortableTextBlock[] | null;
 };
 
@@ -45,9 +71,7 @@ export function AboutPageView({
           </div>
         </div>
         <div className="dp-body-text">
-          <p className="mb-4">
-            <strong className="dp-section-header">{whoWeAreTitle}</strong>
-          </p>
+          <PortableText value={whoWeAreTitle} components={titleComponents} />
           {whoWeAreBody?.length ? (
             <PortableText value={whoWeAreBody} components={bodyComponents} />
           ) : (
@@ -75,9 +99,7 @@ export function AboutPageView({
           )}
         </div>
         <div className="dp-body-text">
-          <p className="mb-4">
-            <strong className="dp-section-header">{whatWeMakeTitle}</strong>
-          </p>
+          <PortableText value={whatWeMakeTitle} components={titleComponents} />
           {whatWeMakeBody?.length ? (
             <PortableText value={whatWeMakeBody} components={bodyComponents} />
           ) : (

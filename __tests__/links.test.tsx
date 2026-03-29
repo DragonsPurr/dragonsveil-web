@@ -9,6 +9,38 @@ import NotFound from '@/app/not-found';
 
 jest.mock('sweetalert2', () => ({ __esModule: true, default: { fire: jest.fn() } }));
 
+jest.mock('@portabletext/react', () => ({
+  PortableText: () => null,
+}));
+
+jest.mock('@/app/lib/about', () => ({
+  getAboutPageContent: jest.fn().mockResolvedValue(null),
+  resolvePortraitAlt: () => 'Kayt and Ryan',
+  defaultSectionTitle: (text: string) => [
+    {
+      _type: 'block',
+      _key: 'mock-title',
+      style: 'normal',
+      markDefs: [],
+      children: [{ _type: 'span', _key: 'mock-span', text, marks: [] }],
+    },
+  ],
+}));
+
+jest.mock('@/app/lib/sanity', () => ({
+  sanityClient: {},
+  urlFor: jest.fn(() => ({
+    width: () => ({
+      height: () => ({
+        fit: () => ({
+          url: () => 'https://example.com/sanity-image.jpg',
+        }),
+      }),
+    }),
+  })),
+  isSanityConfigured: jest.fn(() => false),
+}));
+
 const mockFetch = (url: string) => {
   if (url.startsWith('/api/portfolio'))
     return Promise.resolve({
