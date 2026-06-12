@@ -25,6 +25,12 @@ export const portfolioItem = {
       type: 'text',
       description: 'Description for the image (used as caption).',
     },
+    {
+      name: 'url',
+      title: 'Project URL',
+      type: 'url',
+      description: 'Optional external link shown in the portfolio lightbox.',
+    },
   ],
   preview: {
     select: { title: 'title', media: 'image' },

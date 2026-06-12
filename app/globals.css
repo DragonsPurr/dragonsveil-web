@@ -8,8 +8,13 @@
   --dv-dark-purple: #861887;
   --dv-gray-800: #1f2937;
   --dv-gray-600: #4b5563;
+  /* Aliases for shared shop/contact components from dragonspurr-web */
+  --dp-light-red: var(--dv-light-purple);
+  --dp-dark-red: var(--dv-dark-purple);
+  --dp-gray-600: var(--dv-gray-600);
+  --dp-gray-800: var(--dv-gray-800);
   /* Use with `background-image:` — `bg-[var(...)]` is compiled as background-color, not the image */
-  --dp-main-content-bg-image: url("https://dp-dv-assets.tor1.digitaloceanspaces.com/brand/bkgd-banner.png");
+  --dp-main-content-bg-image: url("/api/assets/brand/bkgd-banner.png");
 }
 
 html,
@@ -71,7 +76,7 @@ body {
   }
 
   .dp-nav-item {
-    @apply flex flex-wrap justify-end gap-2 md:gap-4 font-cinzel text-white text-lg md:text-3xl;
+    @apply flex flex-wrap justify-end gap-1.5 md:gap-2 font-cinzel text-white text-sm md:text-xl leading-none;
   }
 
   .dp-form-label {
@@ -87,57 +92,14 @@ body {
   }
 
   .dp-main-content {
-    @apply flex-1 flex justify-center items-start md:items-center pt-12 px-4 pb-28 md:pb-24
+    @apply flex-1 flex justify-center items-start md:items-center pt-6 px-4 pb-20 md:pb-16
       bg-cover bg-center bg-fixed bg-[var(--dv-gray-800)] bg-blend-soft-light;
     background-image: var(--dp-main-content-bg-image);
   }
-}
 
-/* SweetAlert2: match site style (black/dark modal, red buttons) */
-.swal2-container {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-.swal2-popup {
-  background-color: #000;
-  border: 1px solid #4b5563;
-  border-radius: 0.375rem;
-  color: #fff;
-}
-.swal2-title,
-.swal2-html-container {
-  color: #fff;
-}
-.swal2-icon.swal2-success [class^='swal2-success-line'],
-.swal2-icon.swal2-error [class^='swal2-x-line'] {
-  background-color: #fff;
-}
-.swal2-icon.swal2-success .swal2-success-ring {
-  border-color: rgba(185, 28, 28, 0.5);
-}
-.swal2-icon.swal2-error [class^='swal2-x-line'] {
-  background-color: var(--dv-light-purple);
-}
-.swal2-styled.swal2-confirm {
-  background-color: var(--dv-dark-purple);
-  color: #fff;
-  border: none;
-  border-radius: 0.375rem;
-  font-family: var(--font-cinzel), serif;
-  font-size: 1.125rem;
-  padding: 0.5rem 1rem;
-}
-.swal2-styled.swal2-confirm:hover {
-  background-color: var(--dv-light-purple);
-}
-.swal2-styled.swal2-cancel {
-  background-color: transparent;
-  color: #9ca3af;
-  border: 1px solid #4b5563;
-  border-radius: 0.375rem;
-}
-.swal2-styled.swal2-cancel:hover {
-  color: #fff;
-  border-color: #6b7280;
+  .dp-main-content.dp-home-content {
+    @apply items-center justify-center overflow-hidden pt-2 pb-2 md:pb-14;
+  }
 }
 
 /* Sanity Studio: fill viewport so no browser scroll */

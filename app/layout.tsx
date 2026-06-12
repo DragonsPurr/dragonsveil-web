@@ -1,5 +1,11 @@
 import Script from 'next/script';
+import { headers } from 'next/headers';
 import { LayoutSwitcher } from './LayoutSwitcher';
+import { getCustomerAvatarProxyUrl } from './lib/customer-avatar';
+import { getCustomerDisplayName } from './lib/customer-display';
+import { retrieveLoggedInCustomer } from './lib/medusa-auth';
+import { getShopCartNavPreview } from './lib/medusa-cart';
+import { listShopCategories } from './lib/shop';
 import { logoTypes, siteInfo } from './lib/constants';
 import {
   Cinzel_Decorative,
@@ -7,7 +13,7 @@ import {
   Cormorant_Garamond,
 } from 'next/font/google';
 import './globals.css';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 const cinzelDecorative = Cinzel_Decorative({
   weight: ['400', '700', '900'],
@@ -54,11 +60,30 @@ export const UmamiAnalytics = () => {
   );
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+function isShopPath(pathname: string): boolean {
+  return pathname === '/shop' || pathname.startsWith('/shop/');
+}
+
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const pathname = (await headers()).get('x-pathname') ?? '';
+  const shopNavData = isShopPath(pathname)
+    ? await Promise.all([
+        listShopCategories(),
+        getShopCartNavPreview(),
+        retrieveLoggedInCustomer(),
+      ])
+    : null;
+  const [shopCategories, cart, customer] = shopNavData ?? [[], undefined, null];
+
   return (
     <html
       lang="en"
       className={`bg-black ${cinzelDecorative.variable} ${cinzel.variable} ${cormorant.variable}`}
+      style={
+        {
+          '--dp-main-content-bg-image': `url("${logoTypes.publication_banner}")`,
+        } as CSSProperties
+      }
     >
       <head>
         <script
@@ -73,7 +98,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className="bg-black text-white min-h-screen flex flex-col">
         <UmamiAnalytics />
-        <LayoutSwitcher>{children}</LayoutSwitcher>
+        <LayoutSwitcher
+          shopCategories={shopCategories}
+          cart={cart}
+          isCustomerLoggedIn={customer != null}
+          customerDisplayName={customer ? getCustomerDisplayName(customer) : null}
+          customerAvatarUrl={customer ? getCustomerAvatarProxyUrl(customer) : null}
+        >
+          {children}
+        </LayoutSwitcher>
       </body>
     </html>
   );

@@ -13,7 +13,7 @@ describe('Navigation', () => {
     expect(screen.getByRole('link', { name: /about/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /portfolio/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /contact/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /shop/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /^shop$/i })).toBeInTheDocument();
   });
 
   it('links to correct internal paths', () => {
@@ -22,14 +22,12 @@ describe('Navigation', () => {
     expect(screen.getByRole('link', { name: /about/i })).toHaveAttribute('href', '/about');
     expect(screen.getByRole('link', { name: /portfolio/i })).toHaveAttribute('href', '/portfolio');
     expect(screen.getByRole('link', { name: /contact/i })).toHaveAttribute('href', '/contact');
-    expect(screen.getByRole('link', { name: /shop/i })).toHaveAttribute('href', 'https://shop.dragonspurr.ca');
+    expect(screen.getByRole('link', { name: /^shop$/i })).toHaveAttribute('href', '/shop');
   });
 
-  it('Shop link opens in new tab', () => {
+  it('Shop link is an internal route (not external)', () => {
     render(<Navigation />);
-    const shopLink = screen.getByRole('link', { name: /shop/i });
-    expect(shopLink).toHaveAttribute('href', 'https://shop.dragonspurr.ca');
-    expect(shopLink).toHaveAttribute('target', '_blank');
-    expect(shopLink).toHaveAttribute('rel', 'noreferrer');
+    const shopLink = screen.getByRole('link', { name: /^shop$/i });
+    expect(shopLink).not.toHaveAttribute('target', '_blank');
   });
 });

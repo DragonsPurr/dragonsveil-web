@@ -10,32 +10,29 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
   { href: '/portfolio', label: 'Portfolio' },
+  { href: '/shop', label: 'Shop' },
   { href: '/contact', label: 'Contact' },
 ];
 
-export function Navigation() {
+type NavigationProps = {
+  /** When true, sticky positioning is handled by a parent header (e.g. shop sub-nav). */
+  embedded?: boolean;
+};
+
+export function Navigation({ embedded = false }: NavigationProps) {
   const pathname = usePathname();
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return window.innerWidth < 1024;
-  });
+  const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
+    if (typeof window.matchMedia !== 'function') return;
 
     const mq = window.matchMedia('(max-width: 1023px)');
     const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
 
-    if (typeof mq.addEventListener === 'function') {
-      mq.addEventListener('change', onChange);
-      return () => mq.removeEventListener('change', onChange);
-    }
-
-    if (typeof mq.addListener === 'function' && typeof mq.removeListener === 'function') {
-      mq.addListener(onChange);
-      return () => mq.removeListener(onChange);
-    }
+    setIsMobile(mq.matches);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
   }, []);
 
   useEffect(() => {
@@ -68,29 +65,33 @@ export function Navigation() {
     );
   };
 
-  const navLinksContent = (
-    <>
-      {navLinks.map(({ href, label }) => renderNavLink(href, label))}
-      <a href="https://shop.dragonspurr.ca" className="dp-link" {...externalLinkAttributes}>
-        Shop
-      </a>
-    </>
-  );
+  const navLinksContent = <>{navLinks.map(({ href, label }) => renderNavLink(href, label))}</>;
 
   return (
-    <nav className="bg-black w-full flex justify-center pt-2.5 md:pr-[100px] sticky top-0 z-50 border-b-2 border-[var(--dv-light-purple)] pb-2 px-3 md:px-0">
-      <div className="w-full max-w-7xl flex items-center justify-between gap-3 md:gap-6">
-        <div className="flex flex-row items-center gap-8">
-          <Link href="/" className="flex items-center">
+    <nav
+      className={`bg-black w-full flex justify-center py-1 md:py-1.5 md:pr-12 px-3 md:px-0 ${
+        embedded ? '' : 'sticky top-0 z-50 border-b-2 border-[var(--dv-light-purple)]'
+      }`}
+    >
+      <div className="w-full max-w-7xl flex items-center justify-between gap-2 md:gap-3">
+        <div className="flex flex-row items-center gap-2 md:gap-4 min-w-0">
+          <Link href="/" className="flex items-center shrink-0">
             <Image
               src={logoTypes.wide_for_dark_bkgds}
               alt="Dragon's Veil Creations"
-              className="w-36 sm:w-44 md:w-60 h-auto"
+              className="w-24 sm:w-32 md:w-40 h-auto"
               width={400}
               height={400}
+              priority
             />
           </Link>
-          <span className="text-xl font-bold">a <a href="https://dragonspurr.ca" className="dp-link text-red-800" {...externalLinkAttributes}>Dragon&apos;s Purr</a> Brand</span>
+          <span className="hidden lg:inline text-base font-bold whitespace-nowrap leading-none">
+            a{' '}
+            <a href="https://dragonspurr.ca" className="dp-link" {...externalLinkAttributes}>
+              Dragon&apos;s Purr
+            </a>{' '}
+            Brand
+          </span>
         </div>
 
         {!isMobile && <div className="dp-nav-item">{navLinksContent}</div>}
@@ -102,10 +103,10 @@ export function Navigation() {
               aria-label="Open navigation menu"
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
-              className="inline-flex items-center justify-center w-10 h-10 p-0 rounded border border-[var(--dv-light-purple)] hover:bg-red-950/40 focus:outline-none focus:ring-2 focus:ring-[var(--dv-light-purple)] shrink-0"
+              className="inline-flex items-center justify-center w-7 h-7 p-0 rounded border border-[var(--dv-light-purple)] hover:bg-red-950/40 focus:outline-none focus:ring-2 focus:ring-[var(--dv-light-purple)] shrink-0"
             >
               <span className="sr-only">Menu</span>
-              <span aria-hidden className="flex flex-col justify-between w-6 h-5 leading-none">
+              <span aria-hidden className="flex flex-col justify-between w-4 h-3 leading-none">
                 <span className="block w-full h-0.5 bg-white flex-none" />
                 <span className="block w-full h-0.5 bg-white flex-none" />
                 <span className="block w-full h-0.5 bg-white flex-none" />
@@ -122,21 +123,13 @@ export function Navigation() {
                         key={href}
                         href={href}
                         aria-current={active ? 'page' : undefined}
-                        className={`${linkClass(active)} self-start whitespace-nowrap text-base md:text-lg`}
+                        className={`${linkClass(active)} self-start whitespace-nowrap text-sm md:text-base`}
                         onClick={() => setMenuOpen(false)}
                       >
                         {label}
                       </Link>
                     );
                   })}
-                  <a
-                    href="https://shop.dragonspurr.ca"
-                    className="dp-link self-start whitespace-nowrap text-base"
-                    {...externalLinkAttributes}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Shop
-                  </a>
                 </div>
               </div>
             )}

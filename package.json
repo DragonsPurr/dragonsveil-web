@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
+    "clean": "rm -rf .next",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings 0",
@@ -14,13 +15,19 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
+    "@aws-sdk/client-s3": "^3.1060.0",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^3.2.0",
+    "@googlemaps/js-api-loader": "^2.1.0",
+    "@iconify/react": "^6.0.2",
+    "@medusajs/js-sdk": "^2.15.3",
+    "@medusajs/types": "^2.15.3",
     "@portabletext/react": "^6.0.3",
     "@sanity/dashboard": "^5.0.1",
     "@sanity/image-url": "^2.0.3",
+    "@stripe/react-stripe-js": "^6.6.0",
+    "@stripe/stripe-js": "^9.7.0",
     "next": "^16.2.1",
     "next-sanity": "^12.1.1",
     "react": "^19.2.0",
@@ -29,13 +36,13 @@
     "sanity-plugin-asset-source-unsplash": "^7.0.5",
     "sanity-plugin-dashboard-widget-vercel": "^3.1.6",
     "sanity-plugin-umami-analytics-tool": "^1.1.1",
-    "styled-components": "^6.3.12",
-    "sweetalert2": "^11.4.0"
+    "styled-components": "^6.3.12"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
+    "@types/google.maps": "^3.65.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",

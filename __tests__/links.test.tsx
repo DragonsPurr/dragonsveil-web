@@ -7,8 +7,6 @@ import Portfolio from '@/app/portfolio/page';
 import Contact from '@/app/contact/page';
 import NotFound from '@/app/not-found';
 
-jest.mock('sweetalert2', () => ({ __esModule: true, default: { fire: jest.fn() } }));
-
 jest.mock('@portabletext/react', () => ({
   PortableText: () => null,
 }));
@@ -53,7 +51,7 @@ beforeAll(() => {
   global.fetch = mockFetch as typeof fetch;
 });
 
-const VALID_INTERNAL_PATHS = ['/', '/about', '/portfolio', '/contact'];
+const VALID_INTERNAL_PATHS = ['/', '/about', '/portfolio', '/shop', '/contact'];
 
 function getAllLinks(container: HTMLElement): HTMLAnchorElement[] {
   return Array.from(container.querySelectorAll('a[href]'));
@@ -88,20 +86,22 @@ describe('All links have valid hrefs', () => {
     });
   });
 
-  it('Contact page social links have valid hrefs', () => {
+  it('Contact page links have valid hrefs', () => {
     const { container } = render(<Contact />);
     const hrefs = getLinkHrefs(container);
-    expect(hrefs.length).toBeGreaterThanOrEqual(3);
+    expect(hrefs.length).toBeGreaterThanOrEqual(4);
     hrefs.forEach((href) => {
       expect(href).toBeTruthy();
-      expect(href).toMatch(/^https?:\/\//);
+      expect(href).toMatch(/^(https?:\/\/|tel:|mailto:)/);
     });
+    expect(hrefs.some((h) => h.startsWith('tel:'))).toBe(true);
+    expect(hrefs.some((h) => h.startsWith('mailto:'))).toBe(true);
   });
 
-  it('Home page has no standalone links (only nav/footer when in layout)', () => {
+  it('Home page external brand link has valid href', () => {
     const { container } = render(<Home />);
-    const links = getAllLinks(container);
-    expect(links.length).toBe(0);
+    const hrefs = getLinkHrefs(container);
+    expect(hrefs).toContain('https://dragonspurr.ca');
   });
 
   it('About page has no links in content', () => {
@@ -119,7 +119,7 @@ describe('All links have valid hrefs', () => {
     expect(links.length).toBe(0);
   });
 
-  it('Not-found page has no links in content', () => {
+  it('Not-found page has home link', () => {
     const { container } = render(<NotFound />);
     const links = getAllLinks(container);
     expect(links.length).toBe(1);
@@ -128,14 +128,14 @@ describe('All links have valid hrefs', () => {
 });
 
 describe('All expected links are present and resolve to correct targets', () => {
-  it('Navigation contains all expected internal and external links', () => {
+  it('Navigation contains all expected internal links', () => {
     const { container } = render(<Navigation />);
     const hrefs = getLinkHrefs(container);
     expect(hrefs).toContain('/');
     expect(hrefs).toContain('/about');
     expect(hrefs).toContain('/portfolio');
     expect(hrefs).toContain('/contact');
-    expect(hrefs).toContain('https://shop.dragonspurr.ca');
+    expect(hrefs).toContain('/shop');
   });
 
   it('Footer contains expected external links', () => {
@@ -145,11 +145,10 @@ describe('All expected links are present and resolve to correct targets', () => 
     expect(hrefs.filter((h) => h === 'https://boxingoctop.us').length).toBe(1);
   });
 
-  it('Contact page social links resolve to expected URLs', () => {
+  it('Contact page has phone and email links', () => {
     const { container } = render(<Contact />);
     const hrefs = getLinkHrefs(container);
-    expect(hrefs).toContain('https://bsky.app/profile/dragonspurr.bsky.social');
-    expect(hrefs).toContain('https://hey.cafe/@dragonspurr');
-    expect(hrefs).toContain('https://ehnw.ca/u/dragonspurr');
+    expect(hrefs.some((h) => h.startsWith('tel:'))).toBe(true);
+    expect(hrefs.some((h) => h.includes('info@dragonsveil.ca'))).toBe(true);
   });
 });

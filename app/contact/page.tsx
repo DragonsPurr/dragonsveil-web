@@ -1,138 +1,71 @@
-'use client';
+import { siteInfo } from '@/app/lib/constants';
+import type { Metadata } from 'next';
+import { BoxIcon } from '@/components/icons/BoxIcon';
+import { boxiconsContactPhone, boxiconsContactEmail } from '@/components/icons/boxicons-contact';
 
-import { useRef } from 'react';
-import Image from 'next/image';
-import emailjs from '@emailjs/browser';
-import Swal from 'sweetalert2';
-import { socialMedia, siteInfo, envConfig, externalLinkAttributes } from "@/app/lib/constants";
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: `Get in touch with ${siteInfo.name}.`,
+};
+
+const phoneHref = `tel:${siteInfo.phone.replace(/\D/g, '')}`;
+const productSupportMailto = `mailto:${siteInfo.productSupportEmail}?subject=${encodeURIComponent('Product support request')}`;
+const generalInquiryMailto = `mailto:${siteInfo.generalInquiryEmail}?subject=${encodeURIComponent('General inquiry')}`;
+const billingInquiryMailto = `mailto:${siteInfo.billingInquiryEmail}?subject=${encodeURIComponent('Billing inquiry')}`;
 
 export default function Contact() {
-  const formRef = useRef<HTMLFormElement>(null);
-
-  const handleSubmit = (e: { preventDefault(): void; currentTarget: HTMLFormElement }) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    if (!envConfig.emailjs.serviceId || !envConfig.emailjs.templateId
-      || !envConfig.emailjs.userId) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Configuration error',
-        text: 'Email service is not configured.',
-      });
-      return;
-    }
-    emailjs.sendForm(envConfig.emailjs.serviceId,
-      envConfig.emailjs.templateId, form, {
-        publicKey: envConfig.emailjs.userId,
-      }).then(
-      () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Message Sent Successfully',
-        });
-        form.reset();
-      },
-      (error: { text?: string }) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops, something went wrong',
-          text: error.text,
-        });
-      }
-    );
-  };
-
   return (
-    <div className="container mx-auto">
-      <div className="dp-page-header">
-        <strong>Contact</strong>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="dp-body-text">
-          <p>
-            If you have any questions, comments, or concerns, please feel free to reach out to us on social media.
-            <br /><br />
-            <a href={socialMedia.bluesky} {...externalLinkAttributes}>
-              <Image
-                src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Bluesky_Logo.svg"
-                alt={`${siteInfo.name} on Bluesky`}
-                className="inline mr-5 grayscale contrast-200 brightness-200"
-                width={32}
-                height={32}
-              />
-            </a>
-            <a href={socialMedia.heycafe} {...externalLinkAttributes}>
-              <Image
-                src="https://assets.heycafecdn.com/logos/svg/logo_round_transparent_purple.svg?cache=wqn4mia5vlfugr4"
-                alt={`${siteInfo.name} on Hey.Café`}
-                className="inline mr-5 grayscale contrast-200 invert"
-                width={32}
-                height={32}
-              />
-            </a>
-            <a href={socialMedia.eh} {...externalLinkAttributes}>
-              <Image
-                src="https://dp-assets.tor1.digitaloceanspaces.com/socials/Eh-Logo.svg"
-                alt={`${siteInfo.name} on Eh!`}
-                className="inline mr-5 grayscale contrast-200 invert"
-                width={32}
-                height={32}
-              />
-            </a>
-            <br /><br />
-            Additionally, feel free to contact me via email through the form on this page.
+    <div className="container mx-auto max-w-4xl">
+      <h1 className="dp-page-header">Get in touch</h1>
+      <p className="dp-body-text text-gray-300 mb-8 md:mb-10">
+        Want to reach us? We&apos;d love to hear from you. Here&apos;s how you can get in touch.
+      </p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section className="rounded-lg border border-[var(--dv-gray-600)] bg-black/40 p-6 md:p-8 space-y-4">
+          <div className="flex justify-center">
+            <BoxIcon icon={boxiconsContactPhone} width="4rem" height="4rem" />
+          </div>
+          <div className="flex justify-center">
+            <h2 className="font-cinzel_decorative text-2xl text-[var(--dv-light-purple)]">
+              Talk to us
+            </h2>
+          </div>
+          <p className="font-cormorant_garamond text-lg md:text-xl text-gray-300">
+            Questions about our shop, custom work, or an existing order? Give us a call during
+            business hours.
           </p>
-        </div>
-        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="from_name" className="dp-form-label">
-              <strong>Your Name</strong>
-            </label>
-            <input
-              id="from_name"
-              type="text"
-              name="from_name"
-              placeholder="Your Name"
-              className="dp-form-input"
-            />
+          <p>
+            <a href={phoneHref} className="dp-link font-cinzel text-xl md:text-2xl">
+              {siteInfo.phone}
+            </a>
+          </p>
+          <p className="font-cormorant_garamond text-base text-gray-400">{siteInfo.hours}</p>
+        </section>
+
+        <section className="rounded-lg border border-[var(--dv-gray-600)] bg-black/40 p-6 md:p-8 space-y-4 flex flex-col">
+          <div className="flex justify-center">
+            <BoxIcon icon={boxiconsContactEmail} width="4rem" height="4rem" />
           </div>
-          <div>
-            <label htmlFor="from_email" className="dp-form-label">
-              <strong>Email Address</strong>
-            </label>
-            <input
-              id="from_email"
-              type="email"
-              name="from_email"
-              placeholder="Enter email"
-              className="dp-form-input"
-            />
+          <div className="flex justify-center">
+            <h2 className="font-cinzel_decorative text-2xl text-[var(--dv-light-purple)]">
+              Contact support
+            </h2>
           </div>
-          <div>
-            <label htmlFor="subject" className="dp-form-label">
-              <strong>Subject</strong>
-            </label>
-            <input
-              id="subject"
-              type="text"
-              name="subject"
-              placeholder="Enter Subject"
-              className="dp-form-input"
-            />
-          </div>
-          <div>
-            <label htmlFor="message" className="dp-form-label">
-              <strong>Message</strong>
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows={10}
-              className="dp-form-input"
-            />
-          </div>
-          <button type="submit" className="dp-form-button">Submit</button>
-        </form>
+          <p className="font-cormorant_garamond text-lg md:text-xl text-gray-300 flex-1">
+            Need help with an order, shipping, or your account? Send us a message and we&apos;ll get
+            back to you as soon as we can.
+          </p>
+          <a href={productSupportMailto} className="dp-form-button inline-block text-center w-fit">
+            Product Support
+          </a>
+          <a href={generalInquiryMailto} className="dp-form-button inline-block text-center w-fit">
+            General Inquiries
+          </a>
+          <a href={billingInquiryMailto} className="dp-form-button inline-block text-center w-fit">
+            Billing Inquiries
+          </a>
+        </section>
       </div>
     </div>
   );
