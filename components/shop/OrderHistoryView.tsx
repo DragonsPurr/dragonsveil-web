@@ -65,7 +65,7 @@ export function OrderHistoryView({
                 className={`rounded-lg border p-4 space-y-2 ${
                   isPlacedHighlight
                     ? 'border-green-800 bg-green-950/20'
-                    : 'border-[var(--dp-gray-600)]'
+                    : 'border-(--dp-gray-600)'
                 }`}
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -73,7 +73,7 @@ export function OrderHistoryView({
                     Order {getOrderLabel(order)}
                   </p>
                   {totalLabel ? (
-                    <p className="font-cormorant_garamond text-xl text-[var(--dp-light-red)]">
+                    <p className="font-cormorant_garamond text-xl text-(--dp-light-red)">
                       {totalLabel}
                     </p>
                   ) : null}

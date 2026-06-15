@@ -22,12 +22,12 @@ export default function Contact() {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <section className="rounded-lg border border-[var(--dv-gray-600)] bg-black/40 p-6 md:p-8 space-y-4">
+        <section className="rounded-lg border border-(--dv-gray-600) bg-black/40 p-6 md:p-8 space-y-4">
           <div className="flex justify-center">
             <BoxIcon icon={boxiconsContactPhone} width="4rem" height="4rem" />
           </div>
           <div className="flex justify-center">
-            <h2 className="font-cinzel_decorative text-2xl text-[var(--dv-light-purple)]">
+            <h2 className="font-cinzel_decorative text-2xl text-(--dv-light-purple)">
               Talk to us
             </h2>
           </div>
@@ -43,12 +43,12 @@ export default function Contact() {
           <p className="font-cormorant_garamond text-base text-gray-400">{siteInfo.hours}</p>
         </section>
 
-        <section className="rounded-lg border border-[var(--dv-gray-600)] bg-black/40 p-6 md:p-8 space-y-4 flex flex-col">
+        <section className="rounded-lg border border-(--dv-gray-600) bg-black/40 p-6 md:p-8 space-y-4 flex flex-col">
           <div className="flex justify-center">
             <BoxIcon icon={boxiconsContactEmail} width="4rem" height="4rem" />
           </div>
           <div className="flex justify-center">
-            <h2 className="font-cinzel_decorative text-2xl text-[var(--dv-light-purple)]">
+            <h2 className="font-cinzel_decorative text-2xl text-(--dv-light-purple)">
               Contact support
             </h2>
           </div>

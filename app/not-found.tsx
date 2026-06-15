@@ -9,7 +9,7 @@ export default function NotFound() {
         <strong>Page Not Found</strong>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        <div className="relative w-[75%] max-w-md aspect-[4/3]">
+        <div className="relative w-[75%] max-w-md aspect-4/3">
           <Image
             src={`${asset_base_url}/eeby-deeby-404.jpg`}
             alt="404"

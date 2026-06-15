@@ -9,7 +9,7 @@ const linkMarks: PortableTextComponents['marks'] = {
     return (
       <a
         href={href}
-        className="underline text-[var(--dv-light-purple)] hover:opacity-90"
+        className="underline text-(--dv-light-purple) hover:opacity-90"
         {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       >
         {children}
@@ -80,7 +80,7 @@ export function AboutPageView({
                 Hi! We&apos;re Kayt and Ryan!
                 <br />
                 Co-Founders of{' '}
-                <strong className="text-[var(--dv-light-purple)]">
+                <strong className="text-(--dv-light-purple)">
                   <em>Dragon&apos;s Purr Crafts and Sundry!</em>
                 </strong>
               </p>

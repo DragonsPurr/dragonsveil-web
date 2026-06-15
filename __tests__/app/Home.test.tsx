@@ -19,6 +19,6 @@ describe('Home page', () => {
   it('logo has correct src', () => {
     render(<Home />);
     const img = screen.getByRole('img', { name: /dragon's veil creations logo/i });
-    expect(img).toHaveAttribute('src', expect.stringContaining('square-logo-for-dark-bkgds.png'));
+    expect(img).toHaveAttribute('src', expect.stringContaining('dragonsveil_vert-dark-bkgd.png'));
   });
 });

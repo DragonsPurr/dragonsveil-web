@@ -67,7 +67,7 @@ export function ProfileAvatarUpload({
     .join('');
 
   const avatar = (
-    <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-2 border-[var(--dp-gray-600)] bg-[var(--dp-gray-800)] flex items-center justify-center">
+    <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-2 border-(--dp-gray-600) bg-(--dp-gray-800) flex items-center justify-center">
       {avatarUrl ? (
         <Image
           src={avatarUrl}
@@ -77,7 +77,7 @@ export function ProfileAvatarUpload({
           className="object-cover w-full h-full"
         />
       ) : (
-        <span className="font-cinzel text-2xl text-[var(--dp-light-red)]" aria-hidden>
+        <span className="font-cinzel text-2xl text-(--dp-light-red)" aria-hidden>
           {initials || '?'}
         </span>
       )}
@@ -106,7 +106,7 @@ export function ProfileAvatarUpload({
                 name="avatar"
                 type="file"
                 accept="image/jpeg,image/png,image/webp,image/gif"
-                className="dp-form-input file:mr-3 file:py-1 file:px-2 file:rounded file:border-0 file:bg-[var(--dp-dark-red)] file:text-white file:font-cinzel file:text-sm"
+                className="dp-form-input file:mr-3 file:py-1 file:px-2 file:rounded-sm file:border-0 file:bg-(--dp-dark-red) file:text-white file:font-cinzel file:text-sm"
               />
               <p className="font-cormorant_garamond text-sm text-gray-400">
                 JPEG, PNG, WebP, or GIF. Max 2 MB.

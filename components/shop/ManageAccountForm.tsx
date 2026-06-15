@@ -225,7 +225,7 @@ function AddressFields({
             type="checkbox"
             name="is_default_shipping"
             defaultChecked={address?.is_default_shipping ?? false}
-            className="rounded border-[var(--dp-gray-600)]"
+            className="rounded-sm border-(--dp-gray-600)"
           />
           Default shipping
         </label>
@@ -234,7 +234,7 @@ function AddressFields({
             type="checkbox"
             name="is_default_billing"
             defaultChecked={address?.is_default_billing ?? false}
-            className="rounded border-[var(--dp-gray-600)]"
+            className="rounded-sm border-(--dp-gray-600)"
           />
           Default billing
         </label>
@@ -259,13 +259,13 @@ function AddressForm({
   const [deleteState, deleteAction, deletePending] = useActionState(deleteCustomerAddressAction, null);
 
   return (
-    <div className="rounded-lg border border-[var(--dp-gray-600)] p-4 space-y-4">
+    <div className="rounded-lg border border-(--dp-gray-600) p-4 space-y-4">
       {address ? (
-        <h3 className="font-cinzel text-lg text-[var(--dp-light-red)]">
+        <h3 className="font-cinzel text-lg text-(--dp-light-red)">
           {address.address_name || 'Address'}
         </h3>
       ) : (
-        <h3 className="font-cinzel text-lg text-[var(--dp-light-red)]">New address</h3>
+        <h3 className="font-cinzel text-lg text-(--dp-light-red)">New address</h3>
       )}
       <form action={saveAction} className="space-y-4">
         {address ? <input type="hidden" name="address_id" value={address.id} /> : null}
@@ -282,7 +282,7 @@ function AddressForm({
         </button>
       </form>
       {address ? (
-        <form action={deleteAction} className="pt-2 border-t border-[var(--dp-gray-600)]">
+        <form action={deleteAction} className="pt-2 border-t border-(--dp-gray-600)">
           <input type="hidden" name="address_id" value={address.id} />
           <ActionMessage state={deleteState} />
           <button

@@ -47,7 +47,7 @@ export function Navigation({ embedded = false }: NavigationProps) {
 
   const linkClass = (active: boolean) =>
     active
-      ? 'text-[var(--dv-light-purple)] no-underline hover:text-[var(--dv-light-purple)] focus:text-[var(--dv-light-purple)]'
+      ? 'text-(--dv-light-purple) no-underline hover:text-(--dv-light-purple) focus:text-(--dv-light-purple)'
       : 'dp-link';
 
   const renderNavLink = (href: string, label: string) => {
@@ -70,7 +70,7 @@ export function Navigation({ embedded = false }: NavigationProps) {
   return (
     <nav
       className={`bg-black w-full flex justify-center py-1 md:py-1.5 md:pr-12 px-3 md:px-0 ${
-        embedded ? '' : 'sticky top-0 z-50 border-b-2 border-[var(--dv-light-purple)]'
+        embedded ? '' : 'sticky top-0 z-50 border-b-2 border-(--dv-light-purple)'
       }`}
     >
       <div className="w-full max-w-7xl flex items-center justify-between gap-2 md:gap-3">
@@ -103,7 +103,7 @@ export function Navigation({ embedded = false }: NavigationProps) {
               aria-label="Open navigation menu"
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((v) => !v)}
-              className="inline-flex items-center justify-center w-7 h-7 p-0 rounded border border-[var(--dv-light-purple)] hover:bg-red-950/40 focus:outline-none focus:ring-2 focus:ring-[var(--dv-light-purple)] shrink-0"
+              className="inline-flex items-center justify-center w-7 h-7 p-0 rounded-sm border border-(--dv-light-purple) hover:bg-red-950/40 focus:outline-hidden focus:ring-2 focus:ring-(--dv-light-purple) shrink-0"
             >
               <span className="sr-only">Menu</span>
               <span aria-hidden className="flex flex-col justify-between w-4 h-3 leading-none">
@@ -114,7 +114,7 @@ export function Navigation({ embedded = false }: NavigationProps) {
             </button>
 
             {menuOpen && (
-              <div className="absolute right-0 top-full mt-2 w-max max-w-[80vw] rounded-lg border border-[var(--dv-light-purple)] bg-black/95 px-4 py-3 flex flex-col gap-3 text-left">
+              <div className="absolute right-0 top-full mt-2 w-max max-w-[80vw] rounded-lg border border-(--dv-light-purple) bg-black/95 px-4 py-3 flex flex-col gap-3 text-left">
                 <div className="flex flex-col gap-3 items-start">
                   {navLinks.map(({ href, label }) => {
                     const active = isActive(href);

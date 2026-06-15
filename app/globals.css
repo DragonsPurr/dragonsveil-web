@@ -1,50 +1,46 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
-  --dv-bkgd-color: #000000;
-  --dv-light-purple: #c427c0;
-  --dv-dark-purple: #861887;
-  --dv-gray-800: #1f2937;
-  --dv-gray-600: #4b5563;
-  /* Aliases for shared shop/contact components from dragonspurr-web */
-  --dp-light-red: var(--dv-light-purple);
-  --dp-dark-red: var(--dv-dark-purple);
-  --dp-gray-600: var(--dv-gray-600);
-  --dp-gray-800: var(--dv-gray-800);
-  /* Use with `background-image:` — `bg-[var(...)]` is compiled as background-color, not the image */
-  --dp-main-content-bg-image: url("/api/assets/brand/bkgd-banner.png");
+@theme {
+  --font-cinzel_decorative: var(--font-cinzel-decorative), serif;
+  --font-cormorant_garamond: var(--font-cormorant), serif;
+  --font-cinzel: var(--font-cinzel), serif;
 }
 
-html,
-body {
-  @apply bg-[var(--dv-bkgd-color)] text-white min-h-full m-0;
-  font-family: var(--font-cormorant), var(--font-cinzel), -apple-system,
-    BlinkMacSystemFont, 'Times New Roman', serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
 }
 
-@layer components {
-  .dp-page-header {
-    @apply font-cinzel_decorative text-4xl md:text-[60px] text-[var(--dv-light-purple)] leading-none mb-8 md:mb-12;
-  }
+@utility dp-page-header {
+  @apply font-cinzel_decorative text-4xl md:text-[60px] text-(--dv-light-purple) leading-none mb-8 md:mb-12;
+}
 
-  .dp-section-header {
-    @apply font-cinzel_decorative text-2xl md:text-4xl text-[var(--dv-light-purple)];
-  }
+@utility dp-section-header {
+  @apply font-cinzel_decorative text-2xl md:text-4xl text-(--dv-light-purple);
+}
 
-  .dp-circular-image {
-    @apply w-full max-w-[500px] h-auto rounded-full;
-  }
+@utility dp-circular-image {
+  @apply w-full max-w-[500px] h-auto rounded-full;
+}
 
+@utility dp-about-portrait-wrap {
   /* About page: purple tint over portrait (see --dv-dark-purple) */
-  .dp-about-portrait-wrap {
-    @apply relative isolate w-full max-w-[500px] rounded-full overflow-hidden;
-  }
+  @apply relative isolate w-full max-w-[500px] rounded-full overflow-hidden;
   /* Hue/saturation tint — reads more “purple” than multiply alone */
-  .dp-about-portrait-wrap::before {
+  &::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -55,7 +51,7 @@ body {
     pointer-events: none;
     z-index: 1;
   }
-  .dp-about-portrait-wrap::after {
+  &::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -66,39 +62,76 @@ body {
     pointer-events: none;
     z-index: 2;
   }
+}
 
-  .dp-body-text {
-    @apply font-cormorant_garamond text-xl md:text-2xl;
-  }
+@utility dp-body-text {
+  @apply font-cormorant_garamond text-xl md:text-2xl;
+}
 
-  .dp-link {
-    @apply text-white no-underline hover:text-[var(--dv-light-purple)] target:text-[var(--dv-light-purple)];
-  }
+@utility dp-link {
+  @apply text-white no-underline hover:text-(--dv-light-purple) target:text-(--dv-light-purple);
+}
 
-  .dp-nav-item {
-    @apply flex flex-wrap justify-end gap-1.5 md:gap-2 font-cinzel text-white text-sm md:text-xl leading-none;
-  }
+@utility dp-nav-item {
+  @apply flex flex-wrap justify-end gap-1.5 md:gap-2 font-cinzel text-white text-sm md:text-xl leading-none;
+}
 
-  .dp-form-label {
-    @apply block font-cinzel text-xl mb-1 text-[var(--dv-light-purple)];
-  }
+@utility dp-form-label {
+  @apply block font-cinzel text-xl mb-1 text-(--dv-light-purple);
+}
 
-  .dp-form-input {
-    @apply w-full font-cormorant_garamond text-lg px-3 py-2 rounded-md border border-[var(--dv-gray-600)] bg-[var(--dv-bkgd-color)] text-white;
-  }
+@utility dp-form-input {
+  @apply w-full font-cormorant_garamond text-lg px-3 py-2 rounded-md border border-(--dv-gray-600) bg-(--dv-bkgd-color) text-white;
+}
 
-  .dp-form-button {
-    @apply font-cinzel text-lg px-4 py-2 rounded-md bg-[var(--dv-dark-purple)] text-white hover:bg-[var(--dv-light-purple)];
-  }
+@utility dp-form-button {
+  @apply font-cinzel text-lg px-4 py-2 rounded-md bg-(--dv-dark-purple) text-white hover:bg-(--dv-light-purple);
+}
 
-  .dp-main-content {
-    @apply flex-1 flex justify-center items-start md:items-center pt-6 px-4 pb-20 md:pb-16
-      bg-cover bg-center bg-fixed bg-[var(--dv-gray-800)] bg-blend-soft-light;
-    background-image: var(--dp-main-content-bg-image);
-  }
+@utility dp-main-content {
+  @apply flex-1 flex justify-center items-start md:items-center pt-6 px-4 pb-20 md:pb-16
+      bg-cover bg-center bg-fixed bg-(--dv-gray-800) bg-blend-soft-light;
+  background-image: var(--dp-main-content-bg-image);
 
-  .dp-main-content.dp-home-content {
+  &.dp-home-content {
     @apply items-center justify-center overflow-hidden pt-2 pb-2 md:pb-14;
+  }
+}
+
+@utility dp-home-content {
+  &.dp-main-content {
+    @apply items-center justify-center overflow-hidden pt-2 pb-2 md:pb-14;
+  }
+}
+
+@layer utilities {
+  :root {
+    --dv-bkgd-color: #000000;
+    --dv-light-purple: #c427c0;
+    --dv-dark-purple: #861887;
+    --dv-gray-800: #1f2937;
+    --dv-gray-600: #4b5563;
+    /* Aliases for shared shop/contact components from dragonspurr-web */
+    --dp-light-red: var(--dv-light-purple);
+    --dp-dark-red: var(--dv-dark-purple);
+    --dp-gray-600: var(--dv-gray-600);
+    --dp-gray-800: var(--dv-gray-800);
+    /* Use with `background-image:` — `bg-[var(...)]` is compiled as background-color, not the image */
+    --dp-main-content-bg-image: url('/api/assets/brand/bkgd-banner.png');
+  }
+
+  html,
+  body {
+    @apply bg-(--dv-bkgd-color) text-white min-h-full m-0;
+    font-family:
+      var(--font-cormorant),
+      var(--font-cinzel),
+      -apple-system,
+      BlinkMacSystemFont,
+      'Times New Roman',
+      serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 

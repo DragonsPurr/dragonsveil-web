@@ -29,7 +29,7 @@ export function BoxIconHoverButton({
       disabled={disabled}
       onClick={onClick}
       aria-label={label}
-      className={`group inline-flex items-center justify-center text-[var(--dp-light-red)] disabled:opacity-40 disabled:cursor-not-allowed ${className}`}
+      className={`group inline-flex items-center justify-center text-(--dp-light-red) disabled:opacity-40 disabled:cursor-not-allowed ${className}`}
     >
       <BoxIcon
         icon={icon}

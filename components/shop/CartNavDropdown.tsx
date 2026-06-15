@@ -31,7 +31,7 @@ function CartPreviewLine({
 
   return (
     <li className="flex gap-3 px-4 py-3 border-b border-red-900/40 last:border-b-0">
-      <div className="w-12 h-12 shrink-0 rounded overflow-hidden bg-gray-800/60">
+      <div className="w-12 h-12 shrink-0 rounded-sm overflow-hidden bg-gray-800/60">
         {item.thumbnail ? (
           <Image
             src={item.thumbnail}
@@ -114,7 +114,7 @@ export function CartNavDropdown({ cart, linkClass }: CartNavDropdownProps) {
           ▾
         </span>
       </div>
-      <div className="pointer-events-none absolute right-0 top-full z-[60] pt-1 opacity-0 invisible transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100 group-hover:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible">
+      <div className="pointer-events-none absolute right-0 top-full z-60 pt-1 opacity-0 invisible transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100 group-hover:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible">
         <div
           role="region"
           aria-label="Cart preview"
@@ -131,7 +131,7 @@ export function CartNavDropdown({ cart, linkClass }: CartNavDropdownProps) {
               <div className="px-4 py-3">
                 <Link
                   href="/shop/cart"
-                  className="block font-cinzel text-sm text-white no-underline hover:text-[var(--dp-light-red)]"
+                  className="block font-cinzel text-sm text-white no-underline hover:text-(--dp-light-red)"
                 >
                   View cart
                 </Link>
@@ -158,19 +158,19 @@ export function CartNavDropdown({ cart, linkClass }: CartNavDropdownProps) {
               <div className="mx-4 border-t border-red-800" aria-hidden />
               <div className="px-4 py-3 space-y-2">
                 {totalLabel ? (
-                  <p className="font-cinzel text-base text-[var(--dp-light-red)]">
+                  <p className="font-cinzel text-base text-(--dp-light-red)">
                     Total: {totalLabel}
                   </p>
                 ) : null}
                 <Link
                   href="/shop/cart"
-                  className="block font-cinzel text-sm text-white no-underline hover:text-[var(--dp-light-red)]"
+                  className="block font-cinzel text-sm text-white no-underline hover:text-(--dp-light-red)"
                 >
                   View cart
                 </Link>
                 <Link
                   href="/shop/checkout"
-                  className="block font-cinzel text-sm text-white/90 no-underline hover:text-[var(--dp-light-red)]"
+                  className="block font-cinzel text-sm text-white/90 no-underline hover:text-(--dp-light-red)"
                 >
                   Checkout
                 </Link>

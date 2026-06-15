@@ -1,6 +1,6 @@
-import Script from 'next/script';
 import { Analytics } from "@vercel/analytics/next"
 import { headers } from 'next/headers';
+import Script from 'next/script';
 import { LayoutSwitcher } from './LayoutSwitcher';
 import { getCustomerAvatarProxyUrl } from './lib/customer-avatar';
 import { getCustomerDisplayName } from './lib/customer-display';
@@ -8,6 +8,7 @@ import { retrieveLoggedInCustomer } from './lib/medusa-auth';
 import { getShopCartNavPreview } from './lib/medusa-cart';
 import { listShopCategories } from './lib/shop';
 import { logoTypes, siteInfo } from './lib/constants';
+import type { Metadata } from 'next';
 import {
   Cinzel_Decorative,
   Cinzel,
@@ -37,28 +38,29 @@ export const viewport = {
   themeColor: '#000000',
 };
 
-export const metadata = {
-  title: siteInfo.name,
+export const metadata: Metadata = {
+  metadataBase: new URL(siteInfo.url),
+  title: {
+    default: siteInfo.name,
+    template: `%s | ${siteInfo.name}`,
+  },
   description: siteInfo.description,
   openGraph: {
-    url: siteInfo.url,
+    type: 'website',
+    siteName: siteInfo.name,
+    title: siteInfo.name,
+    description: siteInfo.description,
+    images: [
+      {
+        url: logoTypes.square_for_dark_bkgds,
+        alt: siteInfo.name,
+      },
+    ],
   },
   icons: {
-    icon: logoTypes.square_for_dark_bkgds,
-    apple: logoTypes.square_for_dark_bkgds,
+    icon: logoTypes.favicon,
+    apple: logoTypes.favicon,
   },
-};
-
-export const UmamiAnalytics = () => {
-  const websiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
-  if (!websiteId) {
-    return <></>;
-  }
-  return (
-    <>
-      <Script async src="https://umami.is/script.js" data-website-id={websiteId} />
-    </>
-  );
 };
 
 function isShopPath(pathname: string): boolean {
@@ -86,19 +88,14 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         } as CSSProperties
       }
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              window.gtag = gtag;
-            `,
-          }}
-        />
-      </head>
       <body className="bg-black text-white min-h-screen flex flex-col">
-        <UmamiAnalytics />
+        <Script id="gtag-init" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+          `}
+        </Script>
         <LayoutSwitcher
           shopCategories={shopCategories}
           cart={cart}

@@ -15,7 +15,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <article className="min-w-0 flex flex-col">
       <Link
         href={href}
-        className="block w-full min-w-0 aspect-square overflow-hidden rounded-lg bg-gray-800/60 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 focus:ring-offset-black"
+        className="block w-full min-w-0 aspect-square overflow-hidden rounded-lg bg-gray-800/60 focus:outline-hidden focus:ring-2 focus:ring-red-600 focus:ring-offset-2 focus:ring-offset-black"
       >
         {product.thumbnail ? (
           <Image

@@ -75,7 +75,7 @@ export default function Portfolio() {
   const hasNext = page < data.pages;
 
   const cellClass =
-    'block w-full min-w-0 aspect-square overflow-hidden rounded-lg bg-gray-800/60 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 focus:ring-offset-black cursor-pointer';
+    'block w-full min-w-0 aspect-square overflow-hidden rounded-lg bg-gray-800/60 focus:outline-hidden focus:ring-2 focus:ring-red-600 focus:ring-offset-2 focus:ring-offset-black cursor-pointer';
 
   return (
     <div className="container mx-auto">
@@ -119,7 +119,7 @@ export default function Portfolio() {
                   <button
                     type="button"
                     onClick={() => setModalPhoto(photo)}
-                    className="font-cormorant_garamond text-lg text-gray-300 hover:text-red-600 transition-colors focus:outline-none focus:underline w-full"
+                    className="font-cormorant_garamond text-lg text-gray-300 hover:text-red-600 transition-colors focus:outline-hidden focus:underline w-full"
                   >
                     {photo.title}
                   </button>

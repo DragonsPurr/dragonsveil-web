@@ -1,7 +1,13 @@
 import { AboutPageView } from '@/components/AboutPageView';
-import { asset_base_url } from '@/app/lib/constants';
+import { asset_base_url, siteInfo } from '@/app/lib/constants';
 import { defaultSectionTitle, getAboutPageContent, resolvePortraitAlt } from '@/app/lib/about';
 import { urlFor } from '@/app/lib/sanity';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About',
+  description: `Learn more about ${siteInfo.name}.`,
+};
 
 export default async function About() {
   const content = await getAboutPageContent();

@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const menuItemClass =
-  'block w-full text-left whitespace-normal px-3 py-1.5 font-cinzel text-sm text-white no-underline hover:text-[var(--dp-light-red)] bg-transparent border-0 cursor-pointer';
+  'block w-full text-left whitespace-normal px-3 py-1.5 font-cinzel text-sm text-white no-underline hover:text-(--dp-light-red) bg-transparent border-0 cursor-pointer';
 
 type AccountNavDropdownProps = {
   isCustomerLoggedIn?: boolean;
@@ -37,7 +37,7 @@ function CustomerMenuHeader({
 
   return (
     <div className="flex items-center gap-2">
-      <div className="w-8 h-8 shrink-0 rounded-full overflow-hidden border border-[var(--dp-gray-600)] bg-[var(--dp-gray-800)] flex items-center justify-center">
+      <div className="w-8 h-8 shrink-0 rounded-full overflow-hidden border border-(--dp-gray-600) bg-(--dp-gray-800) flex items-center justify-center">
         {avatarUrl ? (
           <Image
             src={avatarUrl}
@@ -47,7 +47,7 @@ function CustomerMenuHeader({
             className="object-cover w-full h-full"
           />
         ) : (
-          <span className="font-cinzel text-sm text-[var(--dp-light-red)]" aria-hidden>
+          <span className="font-cinzel text-sm text-(--dp-light-red)" aria-hidden>
             {initials || '?'}
           </span>
         )}
@@ -85,11 +85,11 @@ export function AccountNavDropdown({
           ▾
         </span>
       </button>
-      <div className="pointer-events-none absolute right-0 top-full z-[60] pt-1 opacity-0 invisible transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100 group-hover:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible">
+      <div className="pointer-events-none absolute right-0 top-full z-60 pt-1 opacity-0 invisible transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100 group-hover:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible">
         <ul
           role="menu"
           aria-label="Account"
-          className="w-[11rem] rounded-md border border-red-800 bg-black/95 py-2 shadow-lg"
+          className="w-44 rounded-md border border-red-800 bg-black/95 py-2 shadow-lg"
         >
           {isCustomerLoggedIn && customerDisplayName ? (
             <li role="none" className="px-3 pb-2">

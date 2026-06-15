@@ -42,7 +42,7 @@ function QuantityIconButton({
       disabled={disabled}
       onClick={onClick}
       aria-label={label}
-      className={`group inline-flex items-center justify-center text-[var(--dp-light-red)] disabled:opacity-50 ${buttonClass}`}
+      className={`group inline-flex items-center justify-center text-(--dp-light-red) disabled:opacity-50 ${buttonClass}`}
     >
       <BoxIcon icon={icon} width={iconSize} height={iconSize} className="group-hover:hidden group-focus-visible:hidden" />
       <BoxIcon

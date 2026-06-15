@@ -53,7 +53,7 @@ export function ShopSubNav({
   return (
     <nav
       aria-label="Shop"
-      className="w-full flex justify-center bg-[var(--dp-dark-red)] border-b-2 border-red-800"
+      className="w-full flex justify-center bg-(--dp-dark-red) border-b-2 border-red-800"
     >
       <ul className="w-full max-w-7xl flex flex-wrap items-center gap-3 md:gap-5 py-1 md:py-1.5 px-3 md:px-0">
         <li>
@@ -70,18 +70,18 @@ export function ShopSubNav({
               </span>
             </Link>
             <div
-              className="pointer-events-none absolute left-0 top-full z-[60] pt-1 opacity-0 invisible transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100 group-hover:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible whitespace-nowrap"
+              className="pointer-events-none absolute left-0 top-full z-60 pt-1 opacity-0 invisible transition-opacity duration-150 group-hover:pointer-events-auto group-hover:opacity-100 group-hover:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible whitespace-nowrap"
             >
               <ul
                 role="menu"
                 aria-label="Product categories"
-                className="min-w-[12rem] rounded-md border border-red-800 bg-black/95 py-2 shadow-lg md:min-w-[14rem]"
+                className="min-w-48 rounded-md border border-red-800 bg-black/95 py-2 shadow-lg md:min-w-56"
               >
                 <li role="none">
                   <Link
                     role="menuitem"
                     href="/shop"
-                    className="block whitespace-normal px-4 py-2 font-cinzel text-base md:text-lg text-white no-underline hover:text-[var(--dp-light-red)]"
+                    className="block whitespace-normal px-4 py-2 font-cinzel text-base md:text-lg text-white no-underline hover:text-(--dp-light-red)"
                   >
                     All products
                   </Link>
@@ -91,7 +91,7 @@ export function ShopSubNav({
                     <Link
                       role="menuitem"
                       href={`/shop/category/${category.handle}`}
-                      className="block whitespace-normal px-4 py-2 font-cinzel text-base md:text-lg text-white no-underline hover:text-[var(--dp-light-red)]"
+                      className="block whitespace-normal px-4 py-2 font-cinzel text-base md:text-lg text-white no-underline hover:text-(--dp-light-red)"
                     >
                       {category.name}
                     </Link>
