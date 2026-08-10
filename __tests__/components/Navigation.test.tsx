@@ -7,19 +7,20 @@ const sampleSocialLinks: NavSocialLink[] = [
     _key: 'ig',
     label: 'Instagram',
     url: 'https://instagram.com/dragonsveil',
-    iconSrc:
-      'https://cdn.brandfetch.io/domain/instagram.com/w/64/h/64/theme/light/type/icon/fallback/transparent.png?c=test',
-    iconSvgSrc:
-      'https://cdn.brandfetch.io/domain/instagram.com/theme/light/type/symbol/fallback/transparent.svg?c=test',
+    iconCandidates: [
+      'https://cdn.brandfetch.io/instagram.com/theme/dark/symbol.svg?c=test',
+      'https://cdn.brandfetch.io/instagram.com/w/64/h/64/theme/dark/icon.png?c=test',
+    ],
     iconSource: 'brandfetch',
+    desaturateToWhite: true,
   },
   {
     _key: 'custom',
     label: 'Discord',
     url: 'https://discord.gg/example',
-    iconSrc: 'https://cdn.sanity.io/images/example/discord.png',
-    iconSvgSrc: null,
+    iconCandidates: ['https://cdn.sanity.io/images/example/discord.png'],
     iconSource: 'custom',
+    desaturateToWhite: false,
   },
 ];
 

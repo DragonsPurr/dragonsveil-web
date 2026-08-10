@@ -21,6 +21,38 @@ type NavigationProps = {
   socialLinks?: NavSocialLink[];
 };
 
+function SocialIconImage({
+  candidates,
+  desaturateToWhite,
+}: {
+  candidates: string[];
+  desaturateToWhite: boolean;
+}) {
+  const [index, setIndex] = useState(0);
+  const src = candidates[index];
+  if (!src) return null;
+
+  return (
+    // Brandfetch CDN must be hotlinked; do not route through next/image.
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      key={src}
+      src={src}
+      alt=""
+      width={24}
+      height={24}
+      className={`w-5 h-5 md:w-6 md:h-6 object-contain bg-transparent${
+        desaturateToWhite ? ' dp-nav-social-icon' : ''
+      }`}
+      loading="lazy"
+      decoding="async"
+      onError={() => {
+        setIndex((current) => (current + 1 < candidates.length ? current + 1 : current));
+      }}
+    />
+  );
+}
+
 function SocialIcons({ links }: { links: NavSocialLink[] }) {
   if (links.length === 0) return null;
 
@@ -32,25 +64,15 @@ function SocialIcons({ links }: { links: NavSocialLink[] }) {
             href={link.url}
             aria-label={link.label}
             title={link.label}
-            className="dp-nav-social-link inline-flex items-center justify-center w-6 h-6 bg-transparent opacity-80 hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-(--dv-light-purple) rounded-sm"
+            className={`inline-flex items-center justify-center w-6 h-6 bg-transparent opacity-80 hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-(--dv-light-purple) rounded-sm${
+              link.desaturateToWhite ? ' dp-nav-social-link' : ''
+            }`}
             {...externalLinkAttributes}
           >
-            {/* Brandfetch CDN must be hotlinked; do not route through next/image. */}
-            <picture>
-              {link.iconSvgSrc ? (
-                <source srcSet={link.iconSvgSrc} type="image/svg+xml" />
-              ) : null}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={link.iconSrc}
-                alt=""
-                width={24}
-                height={24}
-                className="dp-nav-social-icon w-5 h-5 md:w-6 md:h-6 object-contain bg-transparent"
-                loading="lazy"
-                decoding="async"
-              />
-            </picture>
+            <SocialIconImage
+              candidates={link.iconCandidates}
+              desaturateToWhite={link.desaturateToWhite}
+            />
           </a>
         </li>
       ))}

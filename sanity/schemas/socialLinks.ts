@@ -1,3 +1,6 @@
+import { BrandfetchIconInput } from '../components/BrandfetchIconInput';
+import { SocialLinkNavPreview } from '../components/SocialLinkNavPreview';
+
 export const socialLinks = {
   name: 'socialLinks',
   title: 'Social Links',
@@ -42,6 +45,53 @@ export const socialLinks = {
                 'Optional Brandfetch domain override (e.g. discord.com when the URL uses discord.gg). Leave empty to use the hostname from the URL.',
             },
             {
+              name: 'brandfetchIcon',
+              title: 'Brandfetch icon',
+              type: 'object',
+              description:
+                'Pick which Brandfetch asset to use. Leave empty for automatic selection.',
+              components: {
+                input: BrandfetchIconInput,
+              },
+              fields: [
+                {
+                  name: 'type',
+                  title: 'Type',
+                  type: 'string',
+                  options: {
+                    list: [
+                      { title: 'Icon', value: 'icon' },
+                      { title: 'Symbol', value: 'symbol' },
+                      { title: 'Logo', value: 'logo' },
+                    ],
+                  },
+                },
+                {
+                  name: 'theme',
+                  title: 'Theme',
+                  type: 'string',
+                  options: {
+                    list: [
+                      { title: 'Dark', value: 'dark' },
+                      { title: 'Light', value: 'light' },
+                    ],
+                  },
+                },
+                {
+                  name: 'format',
+                  title: 'Format',
+                  type: 'string',
+                  options: {
+                    list: [
+                      { title: 'SVG', value: 'svg' },
+                      { title: 'PNG', value: 'png' },
+                      { title: 'JPEG', value: 'jpeg' },
+                    ],
+                  },
+                },
+              ],
+            },
+            {
               name: 'customIcon',
               title: 'Custom icon',
               type: 'image',
@@ -58,6 +108,24 @@ export const socialLinks = {
                   description: 'Describe the icon if it differs from the link label.',
                 },
               ],
+            },
+            {
+              name: 'desaturateToWhite',
+              title: 'Desaturate to white',
+              type: 'boolean',
+              description:
+                'When on, the icon is forced to white in the nav (and purple on hover). Turn off to keep Brandfetch/custom colors.',
+              initialValue: true,
+            },
+            {
+              name: 'navPreview',
+              title: 'Nav preview',
+              type: 'string',
+              readOnly: true,
+              description: 'How this icon will look in the site navigation.',
+              components: {
+                input: SocialLinkNavPreview,
+              },
             },
           ],
           preview: {

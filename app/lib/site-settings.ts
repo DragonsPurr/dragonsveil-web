@@ -1,6 +1,15 @@
 import type { SanityImageSource } from '@sanity/image-url';
 import { groq } from 'next-sanity';
-import { brandDomainFromUrl, buildBrandfetchIconUrls, normalizeBrandDomain } from './brandfetch';
+import {
+  brandDomainFromUrl,
+  buildBrandfetchAssetUrl,
+  buildBrandfetchIconUrls,
+  normalizeBrandDomain,
+  type BrandfetchAssetFormat,
+  type BrandfetchAssetTheme,
+  type BrandfetchAssetType,
+  type BrandfetchIconSelection,
+} from './brandfetch';
 import { isSanityConfigured, sanityClient, urlFor } from './sanity';
 
 const socialLinksQuery = groq`
@@ -10,17 +19,27 @@ const socialLinksQuery = groq`
       label,
       url,
       brandDomain,
-      customIcon
+      brandfetchIcon,
+      customIcon,
+      desaturateToWhite
     }
   }
 `;
+
+type BrandfetchIconRaw = {
+  type?: string | null;
+  theme?: string | null;
+  format?: string | null;
+};
 
 type SocialLinkRaw = {
   _key: string;
   label?: string | null;
   url?: string | null;
   brandDomain?: string | null;
+  brandfetchIcon?: BrandfetchIconRaw | null;
   customIcon?: SanityImageSource | null;
+  desaturateToWhite?: boolean | null;
 };
 
 type SocialLinksDocRaw = {
@@ -31,12 +50,15 @@ export type NavSocialLink = {
   _key: string;
   label: string;
   url: string;
-  /** Transparent PNG (or custom raster) used as <img> src / picture fallback. */
-  iconSrc: string;
-  /** Transparent SVG when available (Brandfetch symbol); omit for custom rasters. */
-  iconSvgSrc?: string | null;
+  /**
+   * Ordered icon URL candidates. First entry is the initial <img src>;
+   * later entries are used via onError (needed for Brandfetch gaps like Cara).
+   */
+  iconCandidates: string[];
   /** Whether the icon comes from Sanity or Brandfetch (for alt / debugging). */
   iconSource: 'custom' | 'brandfetch';
+  /** When true, nav forces the icon to white (purple on hover). */
+  desaturateToWhite: boolean;
 };
 
 function hasAsset(image: SanityImageSource | null | undefined): boolean {
@@ -46,36 +68,74 @@ function hasAsset(image: SanityImageSource | null | undefined): boolean {
   return false;
 }
 
+function coerceBrandfetchSelection(raw: BrandfetchIconRaw | null | undefined): BrandfetchIconSelection | null {
+  const type = raw?.type;
+  const theme = raw?.theme;
+  const format = raw?.format;
+  if (
+    (type !== 'icon' && type !== 'symbol' && type !== 'logo') ||
+    (theme !== 'light' && theme !== 'dark') ||
+    (format !== 'svg' && format !== 'png' && format !== 'jpeg')
+  ) {
+    return null;
+  }
+  return {
+    type: type as BrandfetchAssetType,
+    theme: theme as BrandfetchAssetTheme,
+    format: format as BrandfetchAssetFormat,
+  };
+}
+
 function resolveSocialLink(raw: SocialLinkRaw): NavSocialLink | null {
   const label = typeof raw.label === 'string' ? raw.label.trim() : '';
   const url = typeof raw.url === 'string' ? raw.url.trim() : '';
   if (!label || !url || !raw._key) return null;
+
+  // Default on for existing documents that predate this field.
+  const desaturateToWhite = raw.desaturateToWhite !== false;
 
   if (hasAsset(raw.customIcon ?? null)) {
     return {
       _key: raw._key,
       label,
       url,
-      // PNG preserves alpha for transparent custom uploads.
-      iconSrc: urlFor(raw.customIcon!).width(64).height(64).fit('max').format('png').url(),
-      iconSvgSrc: null,
+      iconCandidates: [
+        urlFor(raw.customIcon!).width(64).height(64).fit('max').format('png').url(),
+      ],
       iconSource: 'custom',
+      desaturateToWhite,
     };
   }
 
   const domain =
     (typeof raw.brandDomain === 'string' ? normalizeBrandDomain(raw.brandDomain) : null) ??
     brandDomainFromUrl(url);
+
+  const selection = coerceBrandfetchSelection(raw.brandfetchIcon);
+  if (domain && selection) {
+    const selectedUrl = buildBrandfetchAssetUrl(domain, selection);
+    if (selectedUrl) {
+      return {
+        _key: raw._key,
+        label,
+        url,
+        iconCandidates: [selectedUrl],
+        iconSource: 'brandfetch',
+        desaturateToWhite,
+      };
+    }
+  }
+
   const brandfetchUrls = domain ? buildBrandfetchIconUrls(domain) : null;
-  if (!brandfetchUrls) return null;
+  if (!brandfetchUrls?.candidates.length) return null;
 
   return {
     _key: raw._key,
     label,
     url,
-    iconSrc: brandfetchUrls.pngSrc,
-    iconSvgSrc: brandfetchUrls.svgSrc,
+    iconCandidates: brandfetchUrls.candidates,
     iconSource: 'brandfetch',
+    desaturateToWhite,
   };
 }
 
