@@ -2,6 +2,7 @@
 
 import type { ShopCartNavPreview } from '@/app/lib/medusa-cart';
 import type { ShopCategoryNavItem } from '@/app/lib/shop';
+import type { NavSocialLink } from '@/app/lib/site-settings';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import dynamic from 'next/dynamic';
@@ -20,6 +21,7 @@ type LayoutSwitcherProps = {
   isCustomerLoggedIn?: boolean;
   customerDisplayName?: string | null;
   customerAvatarUrl?: string | null;
+  socialLinks?: NavSocialLink[];
 };
 
 const emptyCart: ShopCartNavPreview = {
@@ -36,6 +38,7 @@ export function LayoutSwitcher({
   isCustomerLoggedIn = false,
   customerDisplayName = null,
   customerAvatarUrl = null,
+  socialLinks = [],
 }: LayoutSwitcherProps) {
   const pathname = usePathname();
   const isStudio = pathname?.startsWith('/studio');
@@ -53,7 +56,7 @@ export function LayoutSwitcher({
   const siteChrome = (
     <>
       <header className="sticky top-0 z-50 w-full shrink-0">
-        <Navigation embedded={isShop} />
+        <Navigation embedded={isShop} socialLinks={socialLinks} />
         {isShop ? (
           <ShopSubNav
             categories={shopCategories}

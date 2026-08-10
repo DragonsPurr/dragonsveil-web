@@ -145,10 +145,14 @@
   height: 100%;
 }
 
-/* Social icon tint: site red (#dc2626 / red-600) */
-.img-[red-600] {
-  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+/* Nav social icons: white by default, --dv-light-purple on hover/focus (plain CSS; not @utility) */
+.dp-nav-social-icon {
+  filter: brightness(0) invert(1);
+  transition: filter 150ms ease;
 }
-.img-red-600:hover {
-  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(114%) contrast(97%);
+.dp-nav-social-link:hover .dp-nav-social-icon,
+.dp-nav-social-link:focus-visible .dp-nav-social-icon {
+  /* Approximate --dv-light-purple (#c427c0) */
+  filter: brightness(0) saturate(100%) invert(27%) sepia(79%) saturate(2478%) hue-rotate(286deg)
+    brightness(92%) contrast(96%);
 }

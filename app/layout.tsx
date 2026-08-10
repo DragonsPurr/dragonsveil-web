@@ -8,6 +8,7 @@ import { retrieveLoggedInCustomer } from './lib/medusa-auth';
 import { getShopCartNavPreview } from './lib/medusa-cart';
 import { listShopCategories } from './lib/shop';
 import { logoTypes, siteInfo } from './lib/constants';
+import { getSiteSettingsSocialLinks } from './lib/site-settings';
 import type { Metadata } from 'next';
 import {
   Cinzel_Decorative,
@@ -77,6 +78,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       ])
     : null;
   const [shopCategories, cart, customer] = shopNavData ?? [[], undefined, null];
+  const socialLinks = await getSiteSettingsSocialLinks();
 
   return (
     <html
@@ -102,6 +104,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           isCustomerLoggedIn={customer != null}
           customerDisplayName={customer ? getCustomerDisplayName(customer) : null}
           customerAvatarUrl={customer ? getCustomerAvatarProxyUrl(customer) : null}
+          socialLinks={socialLinks}
         >
           {children}
         </LayoutSwitcher>
