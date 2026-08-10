@@ -1,5 +1,5 @@
 import { aboutPage } from './aboutPage';
 import { portfolioItem } from './portfolioItem';
-import { siteSettings } from './siteSettings';
+import { socialLinks } from './socialLinks';
 
-export const schemaTypes = [aboutPage, portfolioItem, siteSettings];
+export const schemaTypes = [aboutPage, portfolioItem, socialLinks];

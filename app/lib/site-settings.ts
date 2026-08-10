@@ -3,9 +3,9 @@ import { groq } from 'next-sanity';
 import { brandDomainFromUrl, buildBrandfetchIconUrls, normalizeBrandDomain } from './brandfetch';
 import { isSanityConfigured, sanityClient, urlFor } from './sanity';
 
-const siteSettingsSocialLinksQuery = groq`
-  *[_type == "siteSettings" && _id == "siteSettings"][0]{
-    socialLinks[]{
+const socialLinksQuery = groq`
+  *[_type == "socialLinks" && _id == "socialLinks"][0]{
+    items[]{
       _key,
       label,
       url,
@@ -23,8 +23,8 @@ type SocialLinkRaw = {
   customIcon?: SanityImageSource | null;
 };
 
-type SiteSettingsRaw = {
-  socialLinks?: SocialLinkRaw[] | null;
+type SocialLinksDocRaw = {
+  items?: SocialLinkRaw[] | null;
 } | null;
 
 export type NavSocialLink = {
@@ -81,12 +81,12 @@ function resolveSocialLink(raw: SocialLinkRaw): NavSocialLink | null {
 
 export async function getSiteSettingsSocialLinks(): Promise<NavSocialLink[]> {
   if (!isSanityConfigured()) return [];
-  const raw = await sanityClient.fetch<SiteSettingsRaw>(
-    siteSettingsSocialLinksQuery,
+  const raw = await sanityClient.fetch<SocialLinksDocRaw>(
+    socialLinksQuery,
     {},
     { next: { revalidate: 60 } },
   );
-  const links = raw?.socialLinks ?? [];
+  const links = raw?.items ?? [];
   return links
     .map(resolveSocialLink)
     .filter((link): link is NavSocialLink => link != null);

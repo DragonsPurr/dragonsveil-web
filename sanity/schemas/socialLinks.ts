@@ -1,11 +1,11 @@
-export const siteSettings = {
-  name: 'siteSettings',
-  title: 'Site settings',
+export const socialLinks = {
+  name: 'socialLinks',
+  title: 'Social Links',
   type: 'document',
   fields: [
     {
-      name: 'socialLinks',
-      title: 'Social links',
+      name: 'items',
+      title: 'Links',
       type: 'array',
       description:
         'Shown as icons on the right side of the top navigation. Order here is the display order.',
@@ -74,8 +74,8 @@ export const siteSettings = {
   preview: {
     prepare() {
       return {
-        title: 'Site settings',
-        subtitle: 'Social links and global site config',
+        title: 'Social Links',
+        subtitle: 'Top navigation icons',
       };
     },
   },
